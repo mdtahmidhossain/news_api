@@ -39,6 +39,6 @@ python3 manage.py runserver
 
 # This Project has 3 pages.
 1) Home => http://localhost:8000/web/home
-2) News Listing => http://localhost:8000/web/news_listing
+2) News Listing(Pagination on the bottom) => http://localhost:8000/web/news_listing
 3) Json Listing => http://localhost:8000/web/json_listing
 
