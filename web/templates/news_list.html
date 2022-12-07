@@ -1,0 +1,137 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    {% if page_obj %}
+        {% for item in page_obj %}
+            <div class="container mt-4">
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="position-relative snipimage">
+                                <img src="{{item.url_to_image}}" class="rounded img-fluid w-100 img-responsive">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mt-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{item.url}}" target="_blank" class='anchor-text'><h5 class="mb-1">{{item.title}} </h5></a>
+                                {% comment %} <h5 class="mb-1">{{item.title}} </h5> {% endcomment %}
+                                <span><i class="fa fa-heart text-danger"></i> </span>
+                            </div>
+                            <div class="d-flex justify-content-md-start justify-content-between views-content mt-2">
+                                <div class="d-flex flex-row align-items-center">
+                                    <i class="fa fa-eye"></i>
+                                    <span class="ms-1 views">{{item.author}}</span>
+                                    
+                                </div>
+                                
+                                <div class="d-flex flex-row align-items-center ms-2">
+                                    <i class="fa fa-heart"></i>
+                                    <span class="ms-1 views">{{item.published_at}}</span>
+                                    {% for source in item.source_set.all %}
+                                    <span class="ms-1 views">{{source.name}}</span>
+                                    {% endfor %}
+                                </div>
+                                
+                                
+                                
+                            </div>
+                            
+                            
+                            <div class="d-flex flex-row mt-3">
+                                {{item.description}}
+                                
+                            </div>
+                            </div>
+                            
+                            
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        {% endfor %}
+        <div class="container mt-4">
+            <div class="card p-3">
+                {% if page_obj.has_other_pages %}
+                <div class="btn-group" role="group" aria-label="Item pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">&laquo;</a>
+                    {% endif %}
+            
+                    {% for page_number in page_obj.paginator.page_range %}
+                        {% if page_obj.number == page_number %}
+                            <button class="btn btn-outline-primary active">
+                                <span>{{ page_number }} <span class="sr-only">(current)</span></span>
+                            </button>
+                        {% else %}
+                            <a href="?page={{ page_number }}" class="btn btn-outline-primary">
+                                {{ page_number }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+            
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">&raquo;</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <p>No items found.</p>
+    {% endif %}
+  </div>
+</div>
+</div>
+
+
+
+  <style>
+
+    body{
+        background-color:#1e1c2a;
+    }
+
+    .anchor-text{
+        color:#0df9fd;
+    }
+
+    .card{
+        border:none;
+        background-color:#252836;
+        color:#fff;
+        border-radius:12px;
+    }
+    
+    .user-timing{
+        
+        right:9px;
+        {% comment %} bottom:9px; {% endcomment %}
+        color:#fff;
+    }
+    .views-content{
+        color:#606271;
+    }
+    .views{
+        font-size:12px;
+        
+    }
+    
+    
+    .dots{
+        display:flex;
+        height:10px;
+        width:10px;
+        background-color:green;
+        border-radius:50%;
+        margin-left:5px;
+        margin-bottom:6px;
+    }
+  </style>
+
+{% endblock %}
