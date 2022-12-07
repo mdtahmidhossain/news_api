@@ -48,8 +48,7 @@ def to_article(list):
 
 
 def json_endpoint(request):
-    if (Article.objects.count() > 0):
-        get_data_from_api()
+    get_data_from_api()
     return JsonResponse(
         list(Article.objects.all().prefetch_related('source_set').order_by(
             '-published_at'
@@ -63,19 +62,18 @@ def home(request):
 
 
 def get_data_from_api():
-    date_from = datetime.today() + timedelta(days=-1)
-    print(Article.objects.count())
-    if (Article.objects.count() > 0):
-        date_from = Article.objects.all().order_by(
-            '-published_at'
-        ).first().published_at + timedelta(minutes=1)
-    date_to = date_from + timedelta(days=1)
-    params = {
-        'apiKey': config('NEWS_API_KEY'),
-        'q': 'tesla',
-        'from': date_from.isoformat(),
-        'to': date_to.isoformat(),
-        'sortBy': 'publishedAt'
-    }
-    api_response = requests.get(config('NEWS_API_URL'), params=params)
-    to_article(api_response.json()['articles'])
+    if (Article.objects.count() == 0):
+    #     date_from = Article.objects.all().order_by(
+    #         '-published_at'
+    #     ).first().published_at + timedelta(minutes=1)
+        date_from = datetime.today() + timedelta(days=-1)
+        date_to = date_from + timedelta(days=1)
+        params = {
+            'apiKey': config('NEWS_API_KEY'),
+            'q': 'tesla',
+            'from': date_from.isoformat(),
+            'to': date_to.isoformat(),
+            'sortBy': 'publishedAt'
+        }
+        api_response = requests.get(config('NEWS_API_URL'), params=params)
+        to_article(api_response.json()['articles'])
