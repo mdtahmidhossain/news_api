@@ -48,6 +48,8 @@ def to_article(list):
 
 
 def json_endpoint(request):
+    if (Article.objects.count() > 0):
+        get_data_from_api()
     return JsonResponse(
         list(Article.objects.all().prefetch_related('source_set').order_by(
             '-published_at'
