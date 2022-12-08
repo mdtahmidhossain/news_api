@@ -41,4 +41,5 @@ python3 manage.py runserver
 1) Home => http://localhost:8000/web/home
 2) News Listing(Pagination on the bottom) => http://localhost:8000/web/news_listing
 3) Json Listing => http://localhost:8000/web/json_listing
+4) Json Endpoint => http://localhost:8000/web/json_endpoint
 

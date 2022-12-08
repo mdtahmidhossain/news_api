@@ -3,9 +3,21 @@ from django.http import JsonResponse
 from django.views import generic
 from datetime import datetime, timedelta
 from web.models import Source, Article
+from web.serializers import ArticleSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from decouple import config
 import requests
 
+@api_view()
+def json_endpoint(request):
+    article = Article.objects.all().prefetch_related('source_set').order_by(
+            '-published_at'
+    )
+    serializer = ArticleSerializer(article, many=True, context={
+        'request': request
+    })
+    return Response(serializer.data)
 
 class NewsListView(generic.ListView):
     paginate_by = 20
@@ -47,7 +59,7 @@ def to_article(list):
         source.save()
 
 
-def json_endpoint(request):
+def json_listing(request):
     get_data_from_api()
     return JsonResponse(
         list(Article.objects.all().prefetch_related('source_set').order_by(

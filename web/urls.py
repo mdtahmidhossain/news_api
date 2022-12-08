@@ -5,5 +5,6 @@ from . import views
 urlpatterns = [
     path('home', views.home),
     path('news_listing', views.NewsListView.as_view(), name='news'),
-    path('json_listing', views.json_endpoint, name='news_json')
+    path('json_listing', views.json_listing, name='news_json'),
+    path('json_endpoint', views.json_endpoint, name='json_endpoint')
 ]
